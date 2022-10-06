@@ -5,4 +5,8 @@ dependencies {
 	api "com.badlogicgames.ashley:ashley:$ashleyVersion"
 	api "com.badlogicgames.gdx:gdx:$gdxVersion"
 	api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+	api "io.github.libktx:ktx-app:1.11.0-rc2"
+	api "io.github.libktx:ktx-log:1.11.0-rc2"
+	api "io.github.libktx:ktx-graphics:1.11.0-rc2"
+	api "io.github.libktx:ktx-ashley:1.11.0-rc2"
 }
