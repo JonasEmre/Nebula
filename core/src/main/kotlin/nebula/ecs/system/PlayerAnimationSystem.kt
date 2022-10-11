@@ -46,7 +46,7 @@ class PlayerAnimationSystem(
         entity[GraphicComponent.mapper]?.setSpriteRegion(defaultRegion)
     }
 
-    override fun entityRemoved(entity: Entity?) = Unit
+    override fun entityRemoved(entity: Entity) = Unit
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val facing = entity[FacingComponent.mapper]

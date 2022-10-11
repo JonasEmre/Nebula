@@ -16,9 +16,13 @@ class PlayerInputSystem :
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val facing = entity[FacingComponent.mapper]
         require(facing != null) { "Entity FacingComponent'a sahip değil, entity=$entity" }
-        val transform = entity[FacingComponent.mapper]
+        val transform = entity[TransformComponent.mapper]
         require(transform != null) { "Entity TransformComponent'a sahip değil, entity=$entity" }
 
+        /* Player input burada sadece facing.direction parametresini değiştiyor.
+           Asıl hareket etme kısmı burada FacingComponent üzerinde değiştirdiğimiz direction
+           parametresine göre MoveSystem kısmında oluyor. Facing ne tarafa bakıyorsa
+           ona göre yürüme fonksiyonu var. */
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             facing.direction = FacingDirection.LEFT
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {

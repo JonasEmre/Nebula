@@ -11,29 +11,32 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import ktx.app.KtxGame
 import ktx.log.logger
-import nebula.ecs.system.PlayerAnimationSystem
-import nebula.ecs.system.PlayerInputSystem
-import nebula.ecs.system.RenderSystem
+import nebula.ecs.system.*
 import nebula.screen.GameScreen
 import nebula.screen.NebulaScreen
 
 private val log = logger<Nebula>()
-const val UNIT_SCALE = 1f / 16f
+const val V_WIDTH = 16f
+const val V_HEIGTH = 9f
 
 class Nebula : KtxGame<NebulaScreen>() {
-    val gameViewport: Viewport = FitViewport(16f, 9f)
+    val gameViewport: Viewport = FitViewport(V_WIDTH, V_HEIGTH)
     val batch: Batch by lazy { SpriteBatch() }
     private val playerShipTexture: Texture by lazy { Texture(Gdx.files.internal("graphics/player_ship.png")) }
 
-    val engine: Engine by lazy { PooledEngine().apply {
-        addSystem(PlayerInputSystem())
-        addSystem(PlayerAnimationSystem(playerShipTexture))
-        addSystem(RenderSystem(batch, gameViewport))
-    } }
+    val engine: Engine by lazy {
+        PooledEngine().apply {
+            addSystem(PlayerInputSystem())
+            addSystem(MoveSystem())
+            addSystem(DamageSystem())
+            addSystem(PlayerAnimationSystem(playerShipTexture))
+            addSystem(RenderSystem(batch, gameViewport))
+            addSystem(RemoveSystem())
+        }
+    }
 
     override fun create() {
         Gdx.app.logLevel = LOG_DEBUG
-        log.debug { "İlk Kuruluş" }
         addScreen(GameScreen(this))
         setScreen<GameScreen>()
     }
@@ -41,5 +44,6 @@ class Nebula : KtxGame<NebulaScreen>() {
     override fun dispose() {
         batch.dispose()
         playerShipTexture.dispose()
+        log.debug { "Rendercalls:${(batch as SpriteBatch).renderCalls}" }
     }
 }
